@@ -1,0 +1,226 @@
+<h1 id="hexo-tag-aplayer"><a href="#hexo-tag-aplayer" class="headerlink" title="hexo-tag-aplayer"></a>hexo-tag-aplayer</h1><p><img src="https://img.shields.io/npm/v/hexo-tag-aplayer.svg" alt="npm">  <img src="https://img.shields.io/npm/l/hexo-tag-aplayer.svg" alt="npm"></p>
+<p>Embed APlayer(<a href="https://github.com/DIYgod/APlayer">https://github.com/DIYgod/APlayer</a>) in Hexo posts/pages.</p>
+<p><a href="https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md">中文文档</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#dependency">Dependency</a></li>
+<li><a href="#usage">Usage</a><ul>
+<li><a href="#option">Option</a></li>
+<li><a href="#with-lyrics">With lyrics</a></li>
+<li><a href="#with-playlist">With playlist</a></li>
+<li><a href="#meingjs-support-new-in-30">MeingJS support (new in 3.0)</a></li>
+<li><a href="#pjax-compatible">PJAX compatible</a></li>
+</ul>
+</li>
+<li><a href="#customization-new-in-30">Customization (new in 3.0)</a></li>
+<li><a href="#troubleshoot">Troubleshoot</a><ul>
+<li><a href="#space-within-arguments">Space within arguments</a></li>
+<li><a href="#duplicate-aplayerjs-loading">Duplicate APlayer.JS loading</a></li>
+</ul>
+</li>
+<li><a href="#license">LICENSE</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<p><img src="http://7jpp1d.com1.z0.glb.clouddn.com/QQ20160202-5.png" alt="plugin screenshot"></p>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><pre><code>npm install --save hexo-tag-aplayer
+</code></pre><h2 id="Dependency"><a href="#Dependency" class="headerlink" title="Dependency"></a>Dependency</h2><ul>
+<li>APlayer.js  &gt;= 1.10.0</li>
+<li>Meting.js &gt;= 1.2.0</li>
+</ul>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><pre><code>{% aplayer title author url [picture_url, narrow, autoplay, width:xxx, lrc:xxx] %}
+</code></pre><h3 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h3><ul>
+<li><code>title</code> : music title</li>
+<li><code>author</code>: music author</li>
+<li><code>url</code>: music file url</li>
+<li><code>picture_url</code>: optional, music picture url</li>
+<li><code>narrow</code>: optional, narrow style</li>
+<li><code>autoplay</code>: optional, autoplay music, not supported by mobile browsers</li>
+<li><code>width:xxx</code>: optional, prefix <code>width:</code>, player’s width (default: 100%)</li>
+<li><code>lrc:xxx</code>: optional, prefix <code>lrc:</code>, LRC file url</li>
+</ul>
+<p>With <a href="https://hexo.io/docs/asset-folders.html#Tag-Plugins-For-Relative-Path-Referencing">post asset folders</a> enabled, you can easily place your image, music and LRC file into asset folder, and reference them like:</p>
+<pre><code>{% aplayer &quot;Caffeine&quot; &quot;Jeff Williams&quot; &quot;caffeine.mp3&quot; &quot;picture.jpg&quot; &quot;lrc:caffeine.txt&quot; %}
+</code></pre><h3 id="With-lyrics"><a href="#With-lyrics" class="headerlink" title="With lyrics"></a>With lyrics</h3><p>Besides ‘lrc’ option, you can use <code>aplayerlrc</code> which has end tag to show lyrics.</p>
+<pre><code>{% aplayerlrc &quot;title&quot; &quot;author&quot; &quot;url&quot; &quot;autoplay&quot; %}
+[00:00.00]lrc here
+{% endaplayerlrc %}
+</code></pre><h3 id="With-playlist"><a href="#With-playlist" class="headerlink" title="With playlist"></a>With playlist</h3><pre><code>{% aplayerlist %}
+{
+    &quot;narrow&quot;: false,                          // Optional, narrow style
+    &quot;autoplay&quot;: true,                         // Optional, autoplay song(s), not supported by mobile browsers
+    &quot;mode&quot;: &quot;random&quot;,                         // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    &quot;showlrc&quot;: 3,                             // Optional, show lrc, can be 1, 2, 3
+    &quot;mutex&quot;: true,                            // Optional, pause other players when this player playing
+    &quot;theme&quot;: &quot;#e6d0b2&quot;,                          // Optional, theme color, default: #b7daff
+    &quot;preload&quot;: &quot;metadata&quot;,                    // Optional, the way to load music, can be &apos;none&apos; &apos;metadata&apos; &apos;auto&apos;, default: &apos;auto&apos;
+    &quot;listmaxheight&quot;: &quot;513px&quot;,                 // Optional, max height of play list
+    &quot;music&quot;: [
+        {
+            &quot;title&quot;: &quot;CoCo&quot;,
+            &quot;author&quot;: &quot;Jeff Williams&quot;,
+            &quot;url&quot;: &quot;caffeine.mp3&quot;,
+            &quot;pic&quot;: &quot;caffeine.jpeg&quot;,
+            &quot;lrc&quot;: &quot;caffeine.txt&quot;
+        },
+        {
+            &quot;title&quot;: &quot;アイロニ&quot;,
+            &quot;author&quot;: &quot;鹿乃&quot;,
+            &quot;url&quot;: &quot;irony.mp3&quot;,
+            &quot;pic&quot;: &quot;irony.jpg&quot;
+        }
+    ]
+}
+{% endaplayerlist %}
+</code></pre><h3 id="MeingJS-support-new-in-3-0"><a href="#MeingJS-support-new-in-3-0" class="headerlink" title="MeingJS support (new in 3.0)"></a>MeingJS support (new in 3.0)</h3><p>When you use MetingJS, your blog can play musics from Tencent, Netease, Xiami, Kugou, Baidu and more.</p>
+<p>See <a href="https://github.com/metowolf/MetingJS">metowolf/MetingJS</a> and <a href="https://github.com/metowolf/Meting">metowolf/Meting</a> in detail.</p>
+<p>If you want to use MetingJS in <code>hexo-tag-aplayer</code>, you need enable it in <code>_config.yml</code></p>
+<pre><code class="yaml"><span class="attr">aplayer:</span>
+<span class="attr">  meting:</span> <span class="literal">true</span>
+</code></pre>
+<p>Now you can use <code>{% meting ...%}</code> in your post:</p>
+<pre><code>&lt;!-- Simple example (id, server, type)  --&gt;
+{% meting &quot;60198&quot; &quot;netease&quot; &quot;playlist&quot; %}
+
+&lt;!-- Advanced example --&gt;
+{% meting &quot;60198&quot; &quot;netease&quot; &quot;playlist&quot; &quot;autoplay&quot; &quot;mutex:false&quot; &quot;listmaxheight:340px&quot; &quot;preload:none&quot; &quot;theme:#ad7a86&quot;%}
+</code></pre><p>The  <code>{% meting %}</code>  options are shown below:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><strong>required</strong></td>
+<td>song id / playlist id / album id / search keyword</td>
+</tr>
+<tr>
+<td>server</td>
+<td><strong>required</strong></td>
+<td>Music platform: <code>netease</code>, <code>tencent</code>, <code>kugou</code>, <code>xiami</code>, <code>baidu</code></td>
+</tr>
+<tr>
+<td>type</td>
+<td><strong>required</strong></td>
+<td><code>song</code>, <code>playlist</code>, <code>album</code>, <code>search</code>, <code>artist</code></td>
+</tr>
+<tr>
+<td>fixed</td>
+<td><code>false</code></td>
+<td>Enable fixed mode</td>
+</tr>
+<tr>
+<td>mini</td>
+<td><code>false</code></td>
+<td>Enable mini mode</td>
+</tr>
+<tr>
+<td>loop</td>
+<td><code>all</code></td>
+<td>Player loop play, values: ‘all’, ‘one’, ‘none’</td>
+</tr>
+<tr>
+<td>order</td>
+<td><code>list</code></td>
+<td>Player play order, values: ‘list’, ‘random’</td>
+</tr>
+<tr>
+<td>volume</td>
+<td>0.7</td>
+<td>Default volume, notice that player will remember user setting, default volume will not work after user set volume themselves</td>
+</tr>
+<tr>
+<td>lrctype</td>
+<td>0</td>
+<td>Lyric type</td>
+</tr>
+<tr>
+<td>listfolded</td>
+<td><code>false</code></td>
+<td>Indicate whether list should folded at first</td>
+</tr>
+<tr>
+<td>autoplay</td>
+<td><code>false</code></td>
+<td>Autoplay song(s), not supported by mobile browsers</td>
+</tr>
+<tr>
+<td>mutex</td>
+<td><code>true</code></td>
+<td>Pause other players when this player playing</td>
+</tr>
+<tr>
+<td>listmaxheight</td>
+<td><code>340px</code></td>
+<td>Max height of play list</td>
+</tr>
+<tr>
+<td>preload</td>
+<td><code>auto</code></td>
+<td>The way to load music, can be <code>none</code>, <code>metadata</code>, <code>auto</code></td>
+</tr>
+<tr>
+<td>storagename</td>
+<td><code>metingjs</code></td>
+<td>LocalStorage key that store player setting</td>
+</tr>
+<tr>
+<td>theme</td>
+<td><code>#ad7a86</code></td>
+<td>Theme color</td>
+</tr>
+</tbody>
+</table>
+<p>Read section <a href="#customization-new-in-30">customization</a>  to learn how to configure self-host meting api server in <code>hexo-tag-aplayer</code> and other configuration.</p>
+<h3 id="PJAX-compatible"><a href="#PJAX-compatible" class="headerlink" title="PJAX compatible"></a>PJAX compatible</h3><p>You need destroy APlayer instances manually when you use PJAX.</p>
+<pre><code class="js">$(<span class="built_in">document</span>).on(<span class="string">'pjax:start'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="keyword">if</span> (<span class="built_in">window</span>.aplayers) {
+        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">window</span>.aplayers.length; i++) {
+            <span class="built_in">window</span>.aplayers[i].destroy();
+        }
+        <span class="built_in">window</span>.aplayers = [];
+    }
+});
+</code></pre>
+<h2 id="Customization-new-in-3-0"><a href="#Customization-new-in-3-0" class="headerlink" title="Customization (new in 3.0)"></a>Customization (new in 3.0)</h2><p>You can configure <code>hexo-tag-aplayer</code> in <code>_config.yml</code>:</p>
+<pre><code class="yaml"><span class="attr">aplayer:</span>
+<span class="attr">  script_dir:</span> <span class="string">some/place</span>                        <span class="comment"># Script asset path in public directory, default: 'assets/js'</span>
+<span class="attr">  style_dir:</span> <span class="string">some/place</span>                         <span class="comment"># Style asset path in public directory, default: 'assets/css'</span>
+<span class="attr">  cdn:</span> <span class="attr">http://xxx/aplayer.min.js</span>                <span class="comment"># External APlayer.js url (CDN)</span>
+<span class="attr">  style_cdn:</span> <span class="attr">http://xxx/aplayer.min.css</span>         <span class="comment"># External APlayer.css url (CDN)</span>
+<span class="attr">  meting:</span> <span class="literal">true</span>                                  <span class="comment"># Meting support, default: false</span>
+<span class="attr">  meting_api:</span> <span class="attr">http://xxx/api.php</span>                <span class="comment"># Meting api url</span>
+<span class="attr">  meting_cdn:</span> <span class="attr">http://xxx/Meing.min.js</span>           <span class="comment"># External Meting.js url (CDN)</span>
+<span class="attr">  asset_inject:</span> <span class="literal">true</span>                            <span class="comment"># Auto asset injection, default: true</span>
+<span class="attr">  externalLink:</span> <span class="attr">http://xxx/aplayer.min.js</span>       <span class="comment"># Deprecated, use 'cdn' instead</span>
+</code></pre>
+<h2 id="Troubleshoot"><a href="#Troubleshoot" class="headerlink" title="Troubleshoot"></a>Troubleshoot</h2><h3 id="Space-within-arguments"><a href="#Space-within-arguments" class="headerlink" title="Space within arguments"></a>Space within arguments</h3><p>Hexo has an <a href="https://github.com/hexojs/hexo/issues/1455">issue</a> that cannot use space within tag arguments.</p>
+<p>If you encounter this problem, <strong>install the latest (beta) version, and wrap the arguments within a string literal, for example:</strong></p>
+<pre><code>{% aplayer &quot;Caffeine&quot; &quot;Jeff Williams&quot; &quot;caffeine.mp3&quot; &quot;autoplay&quot; &quot;width:70%&quot; &quot;lrc:caffeine.txt&quot; %}
+</code></pre><h3 id="Duplicate-APlayer-JS-loading"><a href="#Duplicate-APlayer-JS-loading" class="headerlink" title="Duplicate APlayer.JS loading"></a>Duplicate APlayer.JS loading</h3><p>The plugin hooks filter <code>after_render:html</code> , and it would inject <code>APlayer.js</code> and <code>Meting.js</code> in <code>&lt;head&gt;</code>:</p>
+<pre><code class="html"><span class="tag">&lt;<span class="name">html</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">head</span>&gt;</span>
+    ...
+    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"assets/js/aplayer.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"assets/js/meting.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+  <span class="tag">&lt;/<span class="name">head</span>&gt;</span>
+  ...
+<span class="tag">&lt;/<span class="name">html</span>&gt;</span>
+</code></pre>
+<p>However, <code>after_render:html</code> is not fired in some cases :</p>
+<ul>
+<li><a href="https://github.com/hexojs/hexo-inject/issues/1">Does not work with hexo-renderer-jade</a></li>
+<li><code>after_render:html</code> seems not to get emitted in default settings of hexo server module (<code>hexo server</code>), it means you have to use static serving mode( <code>hexo server -s</code>) instead.</li>
+</ul>
+<p>In such cases, the plugin would hook<code>after_post_render</code> as a fallback, which has a possibility to cause duplicate asset loadings.</p>
+<p>If you want to solve this issue definitely, you can disable this auto-injection feature in <code>_config.yml</code> and insert the scripts by yourself:</p>
+<pre><code class="yaml"><span class="attr">aplayer:</span>
+<span class="attr">  asset_inject:</span> <span class="literal">false</span>
+</code></pre>
+<h2 id="LICENSE"><a href="#LICENSE" class="headerlink" title="LICENSE"></a>LICENSE</h2><p>MIT</p>
